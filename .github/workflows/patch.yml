@@ -1,0 +1,43 @@
+name: Patch vbmeta
+
+on:
+  workflow_dispatch:
+    inputs:
+      vbmeta_url:
+        description: 'Direct URL to vbmeta.img'
+        required: true
+
+jobs:
+  patch-process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Download vbmeta.img
+        run: |
+          curl -L "${{ github.event.inputs.vbmeta_url }}" -o vbmeta.img
+          if [ ! -s "vbmeta.img" ]; then
+            echo "::error::Download failed"
+            exit 1
+          fi
+
+      - name: Run Patch Script
+        run: python3 patch-vbmeta.py vbmeta.img
+
+      - name: Compress to TAR
+        run: tar -cvf vbmeta_patched.tar vbmeta.img
+
+      - name: Upload Patched TAR
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vbmeta_patched
+          path: vbmeta_patched.tar
+          retention-days: 5
