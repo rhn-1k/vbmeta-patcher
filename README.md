@@ -1,5 +1,15 @@
 # Vbmeta file patcher
-A simple script that patches the vbmeta file to disable dm-verity to allowing the device to run an unofficial system (custom rom)
 
-how to run?
-go to Actions and choose Patch vbmeta and click run workflow, add your direct vbmeta.img yel and run
+A simple script that patches the vbmeta file to disable dm-verity to allowing the device to run an unofficial system (custom rom).
+
+<br>
+
+# How to run?
+1. Go to **Actions** and choose **Patch VBMeta Image from URL**.
+2. Click **Run workflow**.
+3. Add your direct `vbmeta.img` URL and run.
+
+<br>
+
+## Credits
+https://github.com/WessellUrdata/vbmeta-disable-verification for the python script, licensed under MIT license.
